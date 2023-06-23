@@ -18,7 +18,7 @@ class Vista:
         print("3 - Mostrar Reservas.")
         print("4 - Reservar Fecha.")
         print("5 - Pagar Seña Inicial.")
-        print("6 - Cancelar Reserva.")
+        print("6 - Cancelar Reserva.") # 7 - Calcular dinero a devolver
         return input()
 
     def draw_error(self,n_error):

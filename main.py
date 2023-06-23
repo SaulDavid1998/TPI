@@ -1,4 +1,4 @@
-from Controlador.Controlador import Controlador
+from Controlador.Controlador_main import Controlador
 
 cnt = Controlador()
 
@@ -10,4 +10,4 @@ while True:
         case 2:
             cnt.scr_show_fechas()
         case 4:
-            pass
+            cnt.scr_create_reserva()
