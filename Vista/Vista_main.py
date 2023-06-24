@@ -51,3 +51,11 @@ class Vista_main:
     
     def draw_reserva_terminada(self):
         print("¡Reserva completada!")
+
+    def draw_enter_seniar(self):
+        return int(input("Ingrese el ID de la reserva a señar: "))
+
+    def draw_pregunta_seniar(self):
+        print("¿Desea señar esta reserva?")
+        print("Escriba <si> para aceptar, en caso contrario, ingrese cualquier otro comando/mensaje...")
+        return str(input())

@@ -75,6 +75,13 @@ class Controlador:
         for i in range(5):
             vs.draw(ar_reserva[id].__str__(i))
 
+    #SCRIP  MOSTRAR  RESERVA: Muestra las reservas y NO pide pulsar Enter para continuar...
+    def scr_show_reservas(self):
+        for i,j in enumerate(ar_reserva): #Enumerate = Se ejecutara en cada uno de los valores del array, osea, cada cliente.
+            vs.draw_bar()
+            vs.draw(ar_reserva[i].__str_id__(int(i))) #str_id muestra especificamente la linea de ID.
+            self.scr_show_reserva_small(i)
+
     #SCRIPT _ MOSTRAR _ CLIENTES: Muestra los clientes y NO pide pulsar Enter para continuar..
     def scr_show_clientes(self):
         vs.draw_bar()
@@ -171,4 +178,12 @@ class Controlador:
     #======   CAMBIAR ESTADO   ======
     #================================
     def scr_seniar(self):
-        pass
+        self.scr_show_reservas()
+        vs.draw_bar()
+        int_seniar = vs.draw_enter_seniar()
+        if ar_reserva[int_seniar].get_status() == "En Cola...":
+            vs.draw(ar_reserva[int_seniar].__str_senia__())
+            if vs.draw_pregunta_seniar() == "si":
+                ar_reserva[int_seniar].set_status("Señado")
+        else:
+            vs.draw_error(4)
