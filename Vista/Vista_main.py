@@ -31,16 +31,18 @@ class Vista_main:
                 print("Ese dia esta ocupado, ingrese otro...")
             case 3:
                 print("No hay reservas realizadas.")
+            case 4:
+                print("Esa reserva no esta disponible para señar.")
         self.draw_continue()
     
     def draw_enter_fecha(self):
-        return int(input("Ingrese el dia en el que reservar:"))
+        return int(input("Ingrese el dia en el que reservar: "))
     
     def draw_enter_servicios(self):
-        return int(input("Ingrese el ID del servicio a reservar:"))
+        return int(input("Ingrese el ID del servicio a reservar: "))
 
     def draw_enter_cliente(self):
-        return int(input("Ingrese el ID del cliente a cargo de la reserva:"))
+        return int(input("Ingrese el ID del cliente a cargo de la reserva: "))
     
     def draw_pregunta_servicios(self):
         print("¿Desea agregar un servicio a su reserva?")

@@ -70,6 +70,9 @@ class Reserva:
     def __str_id__(self,id):
         return "|| ID: " + str(id) + " ||"
     
+    def __str_senia__(self):
+        return "La seña a realizar es de: " + str(self.get_monto() * 0.3)
+    
     def __str_price__(self,type):
         match type:
             case 0: return "Precio de la reserva: $" + str(self.get_monto())
