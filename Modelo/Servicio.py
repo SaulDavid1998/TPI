@@ -1,14 +1,22 @@
 class Servicio:
-    def init(self,servicio="",precio=0.0):
-        self.__servicio=servicio
-        self.__precio=precio
+    def __init__(self,servicio,precio):
+        self.servicio = servicio
+        self.precio = precio
 
     def GetServicio(self):
-        return self.__servicio
+        return self.servicio
+    
     def GetPrecio(self):
-        return self.__precio
+        return self.precio
 
     def SetPrecio(self,precio):
-        self.__precio=precio
+        self.precio=precio
+
     def SetServicio(self,servicio):
-        self.__servicio=servicio
+        self.servicio=servicio
+
+    #def devolver_servicio(self):
+        #return self.aux[str(self.GetServicio(),self.GetPrecio())]
+    
+    def __str__(self,par):
+        return "|| ID: " + str(par) + " - Servicio: " + str(self.servicio) + " - Costo: " + str(self.precio) + " ||"

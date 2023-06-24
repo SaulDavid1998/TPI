@@ -29,5 +29,5 @@ class Cliente:
     def SetEdad(self,edad):
         self.__edad=edad
 
-    def __str__(self):
-        return "|| Nombre: " + str(self.__nombre) + " - DNI: " + str(self.__dni) + " - Telefono: " + str(self.__telefono) + " - Edad: " + str(self.__edad) + " ||"
+    def __str__(self,id):
+        return "|| ID: " + str(id) + " - Nombre: " + str(self.__nombre) + " - DNI: " + str(self.__dni) + " - Telefono: " + str(self.__telefono) + " - Edad: " + str(self.__edad) + " ||"

@@ -17,8 +17,3 @@ class Fecha:
 
     def __str__(self):
         return "|| Dia: " + str(self.__fecha) + " - Estado: " + str(self.__estado) + " ||"
-
-    def Verificar(self):
-        pass
-
-
