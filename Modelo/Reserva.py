@@ -45,39 +45,48 @@ class Reserva:
     #======   ADD   ======
     #=====================
     
-    def add_monto(self,par_monto):
-        self.monto += par_monto
+    def add_monto(self,par_monto): #Suma dinero al monto final de la reserva.
+        self.monto += par_monto #Esto es usado al agregar un servicio.
     
-    def add_servicio(self,id,cost):
-        self.obj_servicios.append(id)
-        self.add_monto(cost)
+    def add_servicio(self,id,cost): #Agrega un servicio.
+        self.obj_servicios.append(id) #Primero registra su id, ya que no se guarda un array como tal.
+        self.add_monto(cost) #Luego con add_monto se suma al monto final.
 
-    def add_servicio_nomonto(self,id):
-        self.obj_servicios.append(id)
+    def add_servicio_nomonto(self,id): #Al leer las reservas que estan en el archivo, no necesitamos sumar el monto.
+        self.obj_servicios.append(id) #Entonces con esta función solo agregamos la ID de los servicios.
 
     #=====================
     #=====   _STR_   =====
     #=====================
 
+    #Complejos
+
     def __str__(self,type):
         match type:
-            case 0: return "|| Cliente: " + str(self.get_cliente()) + " ||"
-            case 1: return "|| Dia: " + str(self.get_fecha()) + " ||"
-            case 2: return "|| ID Servicios: " + str(self.get_servicios()) + " ||"
-            case 3: return "|| $ " + str(self.get_monto()) + " ||"
-            case 4: return "|| Estado: " + str(self.get_status()) + " ||"
+            case 0: return "|| Cliente: " + str(self.get_cliente()) + " ||" #Mostramos el nombre del cliente.
+            case 1: return "|| Dia: " + str(self.get_fecha()) + " ||"   #Mostramos el dia del evento.
+            case 2: return "|| ID Servicios: " + str(self.get_servicios()) + " ||" #Mostramos el ID de los servicios.
+            case 3: return "|| $ " + str(self.get_monto()) + " ||" #Mostramos el monto total.
+            case 4: return "|| Estado: " + str(self.get_status()) + " ||" #Mostramos el estado.
     
+    def __str_price__(self,type):
+        match type:
+            case 0: return "Precio de la reserva: $" + str(self.get_monto()) #Mostramos el precio de la reserva + servicios.
+            case 1: return "Gastos administrativos: $100" #Mostramos el gasto administrativo.
+            case 2: return "IVA: " + str((self.get_monto() * 1.21) - self.get_monto()) + "%" #Mostramos lo que se suma debido al IVA.
+            case 3: return "En total, el evento costara: $" + str(self.get_monto()) #Mostramos el precio final.
+            case 4: return "La seña a realizar es de: $" + str(self.get_monto() * 0.3) #Mostramos el precio a señar.
+
+    #Simples
+
     def __str_id__(self,id):
         return "|| ID: " + str(id) + " ||"
     
     def __str_senia__(self):
-        return "La seña a realizar es de: " + str(self.get_monto() * 0.3)
+        return "La seña a realizar es de: $" + str(self.get_monto() * 0.3)
     
-    def __str_price__(self,type):
-        match type:
-            case 0: return "Precio de la reserva: $" + str(self.get_monto())
-            case 1: return "Gastos administrativos: $100"
-            case 2: return "IVA: " + str((self.get_monto() * 1.21) - self.get_monto()) + "%"
-            case 3: return "Precio final: $" + str(self.get_monto())
-            case 4: return "La seña a realizar es de: " + str(self.get_monto() * 0.3)
-            case 5: return "En total, el evento costara: $" + str(self.get_monto())
+    def __str_cancelar__(self):
+        if self.get_status() == "Señado": #Si la reserva esta señada, se devolvera parte de la seña, en caso contrario, no.
+            return "El dinero a devolver es: $" + str((self.get_monto() * 0.3) * 0.2)
+        else:
+            return "No hay que devolver dinero."

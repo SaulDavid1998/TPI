@@ -75,7 +75,7 @@ class Controlador:
         for i in range(5):
             vs.draw(ar_reserva[id].__str__(i))
 
-    #SCRIP  MOSTRAR  RESERVA: Muestra las reservas y NO pide pulsar Enter para continuar...
+    #SCRIP _ MOSTRAR _ RESERVA: Muestra las reservas y NO pide pulsar Enter para continuar...
     def scr_show_reservas(self):
         for i,j in enumerate(ar_reserva): #Enumerate = Se ejecutara en cada uno de los valores del array, osea, cada cliente.
             vs.draw_bar()
@@ -156,7 +156,7 @@ class Controlador:
             vs.draw_error(2) # Error 1 = Dia ocupado.
             self.int_fecha = vs.draw_enter_fecha() #Pedimos al usuario ingresar otra vez el dia.
         ar_reserva[(len(ar_reserva) - 1)].set_fecha(self.int_fecha)
-        ar_fecha[self.int_fecha].SetEstado(True) 
+        ar_fecha[self.int_fecha].SetEstado(True)
         #======Seleccionar Servicios======
         while vs.draw_pregunta_servicios() == "si":
             self.scr_show_servicios() #Mostramos al usuario los servicios.
@@ -165,25 +165,43 @@ class Controlador:
                 ar_reserva[(len(ar_reserva) - 1)].add_servicio(int_idservice,ar_servicio[int_idservice].GetPrecio()) #Extendemos la array de servicios, dandole la ID y el monto del servicio.
         #Si dejamos la casilla vacia o escribimos algo random, se termina la parte de servicios y pasamos con la siguiente.
         #======Finalizar======
+        #Esto de aca abajo se encarga de mostrar los distintos montos a sumar.
+        #Para mas información revisar: Reserva -> STR -> __str_price__
         vs.draw_bar()
         vs.draw_reserva_terminada()
         for i in range(3):
             vs.draw(ar_reserva[(len(ar_reserva) - 1)].__str_price__(i))
         ar_reserva[(len(ar_reserva) - 1)].calcular_iva()
-        for i in range(3,6,1):
+        for i in range(3,5,1):
             vs.draw(ar_reserva[(len(ar_reserva) - 1)].__str_price__(i))
+        vs.draw_bar()
         vs.draw_continue()
 
     #================================
-    #======   CAMBIAR ESTADO   ======
+    #======   CAMBIAR STATUS   ======
     #================================
     def scr_seniar(self):
-        self.scr_show_reservas()
+        self.scr_show_reservas() #Mostramos las reservas.
         vs.draw_bar()
-        int_seniar = vs.draw_enter_seniar()
-        if ar_reserva[int_seniar].get_status() == "En Cola...":
-            vs.draw(ar_reserva[int_seniar].__str_senia__())
-            if vs.draw_pregunta_seniar() == "si":
-                ar_reserva[int_seniar].set_status("Señado")
+        int_seniar = vs.draw_enter_seniar() #Pedimos al usuario que escriba la ID de la reserva a señar.
+        if ar_reserva[int_seniar].get_status() == "En Cola...": #Preguntamos si la reserva esta En Cola, para no señar una reserva cancelada o ya señada.
+            vs.draw(ar_reserva[int_seniar].__str_senia__()) #En caso de que este En Cola, le mostramos al usuario cuanto costaria.
+            if vs.draw_pregunta_seniar() == "si": #Pedimos al usuario que escriba si para confirmar.
+                ar_reserva[int_seniar].set_status("Señado") #Cambiamos el estado de la reserva a Señado.
+            vs.draw_seniar_terminado() #Printeamos que el señado fue terminado.
+            vs.draw_continue()
         else:
-            vs.draw_error(4)
+            vs.draw_error(4) #En caso de que no este En Cola, se le avisara al usuario.
+
+    def scr_cancelar(self):
+        self.scr_show_reservas() #Mostramos las reservas.
+        vs.draw_bar()
+        int_cancel = vs.draw_enter_cancelar() #Pedimos al usuario que escriba la ID de la reserva a cancelar.
+        if ar_reserva[int_cancel].get_status() == "En Cola..." or ar_reserva[int_cancel].get_status() == "Señado": #Preguntamos si la reserva no esta cancelada.
+            vs.draw(ar_reserva[int_cancel].__str_cancelar__()) #En caso de que no este cancelado, le mostramos al usuario cuanto dinero se devolveria.
+            if vs.draw_pregunta_cancelar() == "si": #Pedimos al usuario que escriba si para confirmar.
+                ar_reserva[int_cancel].set_status("Cancelado") #Cambiamos el estado de la reserva a Cancelado.
+            vs.draw_cancelar_terminado() #Printeamos que el cancelamiento fue terminado.
+            vs.draw_continue()
+        else:
+            vs.draw_error(5) #En caso de que no este En Cola o Señado, se le avisara al usuario.

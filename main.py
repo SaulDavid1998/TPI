@@ -23,3 +23,6 @@ while True:
         #Señar
         case 6:
             cnt.scr_seniar() #Llama la respectiva función.
+        #Cancelar
+        case 7:
+            cnt.scr_cancelar() #Llama la respectiva función.
