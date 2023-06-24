@@ -4,10 +4,8 @@ from Modelo.Cliente import Cliente
 from Modelo.Fechas import Fecha
 from Modelo.Reserva import Reserva
 from Modelo.Servicio import Servicio
-from Controlador.Controlador_reserva import Controlador_reserva
 
 vs = Vista_main() #Creamos el objeto vs, desde el cual llamaremos los metodos de Vista_main
-cnt_r = Controlador_reserva() #Creamos el objeto cnt_r, desde el cual llamaremos los metodos de Controlador_reserva
 ar_cliente = [] #Creamos un array vacia para los clientes
 ar_fecha = [] #Creamos un array vacia para las fechas
 ar_servicio = [] #Creamos un array vacia para los clientes

@@ -71,9 +71,9 @@ class Reserva:
         return "|| ID: " + str(id) + " ||"
     
     def __str_price__(self):
-        print("Precio de la reserva: " + str(self.get_monto()))
+        print("Precio de la reserva: $" + str(self.get_monto()))
         print("Gastos administrativos: $100")
-        print("IVA: " + str((self.get_monto() * 1.21) - self.get_monto()))
+        print("IVA: " + str((self.get_monto() * 1.21) - self.get_monto()) + "%")
         self.calcular_iva()
-        print("Precio final: " + str(self.get_monto()))
-        return "En total, el evento costara: $ " + str(self.get_monto())
+        print("Precio final: $" + str(self.get_monto()))
+        return "En total, el evento costara: $" + str(self.get_monto())
