@@ -66,18 +66,55 @@ class Controlador:
         except Exception:
             vs.draw_error(1) # Error 1 = Debe ingresar un digito numerico.
 
-    #================================
-    #======   MOSTRAR ARRAYS   ======
-    #================================
+    #==============================================
+    #======   MOSTRAR ARRAYS - NO CONTINUE   ======
+    #==============================================
     
     #SCRIPT _ MOSTRAR _ RESERVA _ SMALL: Muestra la reserva seleccionada sin detalles.
     def scr_show_reserva_small(self,id):
-        vs.draw(ar_reserva[id].__str__(0)) #__str__ muestra de forma bonita y detallada el objeto.
-        vs.draw(ar_reserva[id].__str__(1)) #__str__ muestra de forma bonita y detallada el objeto.
-        vs.draw(ar_reserva[id].__str__(2)) #__str__ muestra de forma bonita y detallada el objeto.
-        vs.draw(ar_reserva[id].__str__(3)) #__str__ muestra de forma bonita y detallada el objeto.
-        vs.draw(ar_reserva[id].__str__(4)) #__str__ muestra de forma bonita y detallada el objeto.
-    
+        for i in range(5):
+            vs.draw(ar_reserva[id].__str__(i))
+
+    #SCRIPT _ MOSTRAR _ CLIENTES: Muestra los clientes y NO pide pulsar Enter para continuar..
+    def scr_show_clientes(self):
+        vs.draw_bar()
+        for i,j in enumerate(ar_cliente): #Enumerate = Se ejecutara en cada uno de los valores del array, osea, cada cliente.
+            vs.draw(ar_cliente[i].__str__(i)) #__str__ muestra de forma bonita y detallada el objeto.
+        vs.draw_bar()
+
+    #SCRIPT _ MOSTRAR _ SERVICIOS: Muestra los servicios y NO pide pulsar Enter para continuar.
+    def scr_show_servicios(self):
+        vs.draw_bar()
+        for i,j in enumerate(ar_servicio): #Enumerate = Se ejecutara en cada uno de los valores del array, osea, cada servicio.
+            vs.draw(ar_servicio[i].__str__(i)) #__str__ muestra de forma bonita y detallada el objeto.
+        vs.draw_bar()
+
+    #SCRIPT _ MOSTRAR _ FECHAS: Muestra las fechas y NO pide pulsar Enter para continuar.
+    def scr_show_fechas(self):
+        vs.draw_bar()
+        for i,j in enumerate(ar_fecha): #Enumerate = Se ejecutara en cada uno de los valores del array, osea, cada fecha.
+            vs.draw(ar_fecha[i].__str__()) #__str__ muestra de forma bonita y detallada el objeto.
+        vs.draw_bar()
+
+    #==============================================
+    #======   MOSTRAR ARRAYS - SI CONTINUE   ======
+    #==============================================
+
+    #SCRIPT _ MOSTRAR _ FECHAS _ CONTINUE: Muestra las fechas y pide pulsar Enter para continuar.
+    def scr_show_fechas_cont(self):
+        self.scr_show_fechas()
+        vs.draw_continue()
+
+    #SCRIPT _ MOSTRAR _ SERVICIOS _ CONTINUE: Muestra los servicios y pide pulsar Enter para continuar.
+    def scr_show_servicios_cont(self):
+        self.scr_show_servicios()
+        vs.draw_continue()
+
+    #SCRIPT _ MOSTRAR _ CLIENTES _ CONTINUE: Muestra los clientes y pide pulsar Enter para continuar..
+    def scr_show_clientes_cont(self):
+        self.scr_show_clientes()
+        vs.draw_continue()
+
     #SCRIPT _ MOSTRAR _ RESERVA _ CONTINUE: Muestra las reservas y pide pulsar Enter para continuar..
     def scr_show_reservas_cont(self):
         if len(ar_reserva) == 0:
@@ -89,51 +126,6 @@ class Controlador:
                 self.scr_show_reserva_small(i)
             vs.draw_bar()
             vs.draw_continue()
-
-    #SCRIPT _ MOSTRAR _ CLIENTES: Muestra los clientes y NO pide pulsar Enter para continuar..
-    def scr_show_clientes(self):
-        vs.draw_bar()
-        for i,j in enumerate(ar_cliente): #Enumerate = Se ejecutara en cada uno de los valores del array, osea, cada cliente.
-            vs.draw(ar_cliente[i].__str__(i)) #__str__ muestra de forma bonita y detallada el objeto.
-        vs.draw_bar()
-
-    #SCRIPT _ MOSTRAR _ CLIENTES _ CONTINUE: Muestra los clientes y pide pulsar Enter para continuar..
-    def scr_show_clientes_cont(self):
-        vs.draw_bar()
-        for i,j in enumerate(ar_cliente): #Enumerate = Se ejecutara en cada uno de los valores del array, osea, cada cliente.
-            vs.draw(ar_cliente[i].__str__(i)) #__str__ muestra de forma bonita y detallada el objeto.
-        vs.draw_bar()
-        vs.draw_continue()
-    
-    #SCRIPT _ MOSTRAR _ SERVICIOS _ CONTINUE: Muestra los servicios y pide pulsar Enter para continuar.
-    def scr_show_servicios_cont(self):
-        vs.draw_bar()
-        for i,j in enumerate(ar_servicio): #Enumerate = Se ejecutara en cada uno de los valores del array, osea, cada servicio.
-            vs.draw(ar_servicio[i].__str__(i)) #__str__ muestra de forma bonita y detallada el objeto.
-        vs.draw_bar()
-        vs.draw_continue()
-
-    #SCRIPT _ MOSTRAR _ SERVICIOS: Muestra los servicios y NO pide pulsar Enter para continuar.
-    def scr_show_servicios(self):
-        vs.draw_bar()
-        for i,j in enumerate(ar_servicio): #Enumerate = Se ejecutara en cada uno de los valores del array, osea, cada servicio.
-            vs.draw(ar_servicio[i].__str__(i)) #__str__ muestra de forma bonita y detallada el objeto.
-        vs.draw_bar()
-
-    #SCRIPT _ MOSTRAR _ FECHAS _ CONTINUE: Muestra las fechas y pide pulsar Enter para continuar.
-    def scr_show_fechas_cont(self):
-        vs.draw_bar()
-        for i,j in enumerate(ar_fecha): #Enumerate = Se ejecutara en cada uno de los valores del array, osea, cada fecha.
-            vs.draw(ar_fecha[i].__str__()) #__str__ muestra de forma bonita y detallada el objeto.
-        vs.draw_bar()
-        vs.draw_continue()
-
-    #SCRIPT _ MOSTRAR _ FECHAS: Muestra las fechas y NO pide pulsar Enter para continuar.
-    def scr_show_fechas(self):
-        vs.draw_bar()
-        for i,j in enumerate(ar_fecha): #Enumerate = Se ejecutara en cada uno de los valores del array, osea, cada fecha.
-            vs.draw(ar_fecha[i].__str__()) #__str__ muestra de forma bonita y detallada el objeto.
-        vs.draw_bar()
     
     #===============================
     #======   CREAR RESERVA   ======
@@ -168,5 +160,15 @@ class Controlador:
         #======Finalizar======
         vs.draw_bar()
         vs.draw_reserva_terminada()
-        vs.draw(ar_reserva[(len(ar_reserva) - 1)].__str_price__())
+        for i in range(3):
+            vs.draw(ar_reserva[(len(ar_reserva) - 1)].__str_price__(i))
+        ar_reserva[(len(ar_reserva) - 1)].calcular_iva()
+        for i in range(3,6,1):
+            vs.draw(ar_reserva[(len(ar_reserva) - 1)].__str_price__(i))
         vs.draw_continue()
+
+    #================================
+    #======   CAMBIAR ESTADO   ======
+    #================================
+    def scr_seniar(self):
+        pass

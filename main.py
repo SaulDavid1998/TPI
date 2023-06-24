@@ -20,3 +20,6 @@ while True:
         #Reservar Fecha.
         case 5:
             cnt.scr_create_reserva() #Llama la respectiva función.
+        #Señar
+        case 6:
+            cnt.scr_seniar() #Llama la respectiva función.

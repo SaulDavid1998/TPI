@@ -70,10 +70,11 @@ class Reserva:
     def __str_id__(self,id):
         return "|| ID: " + str(id) + " ||"
     
-    def __str_price__(self):
-        print("Precio de la reserva: $" + str(self.get_monto()))
-        print("Gastos administrativos: $100")
-        print("IVA: " + str((self.get_monto() * 1.21) - self.get_monto()) + "%")
-        self.calcular_iva()
-        print("Precio final: $" + str(self.get_monto()))
-        return "En total, el evento costara: $" + str(self.get_monto())
+    def __str_price__(self,type):
+        match type:
+            case 0: return "Precio de la reserva: $" + str(self.get_monto())
+            case 1: return "Gastos administrativos: $100"
+            case 2: return "IVA: " + str((self.get_monto() * 1.21) - self.get_monto()) + "%"
+            case 3: return "Precio final: $" + str(self.get_monto())
+            case 4: return "La seña a realizar es de: " + str(self.get_monto() * 0.3)
+            case 5: return "En total, el evento costara: $" + str(self.get_monto())
