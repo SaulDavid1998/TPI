@@ -1,11 +1,13 @@
 #Importamos los archivos externos que usemos
 from Vista.Vista_main import Vista_main
+from Vista.Vista_reserva import Vista_reserva
 from Modelo.Cliente import Cliente
 from Modelo.Fechas import Fecha
 from Modelo.Reserva import Reserva
 from Modelo.Servicio import Servicio
 
 vs = Vista_main() #Creamos el objeto vs, desde el cual llamaremos los metodos de Vista_main
+vs_r = Vista_reserva() #Creamos el objeto vs_r, desde el cual llamaremos los metodos de Vista_reserva
 ar_cliente = [] #Creamos un array vacia para los clientes
 ar_fecha = [] #Creamos un array vacia para las fechas
 ar_servicio = [] #Creamos un array vacia para los clientes
@@ -152,7 +154,7 @@ class Controlador:
             #======Seleccionar Cliente======
             self.scr_show_clientes() #Mostramos al usuario los clientes.
             while True:
-                self.int_idcliente = vs.draw_enter_cliente() #Pedimos al usuario ingrese la ID del cliente.
+                self.int_idcliente = vs_r.draw_enter_cliente() #Pedimos al usuario ingrese la ID del cliente.
                 if self.int_idcliente > -1 and self.int_idcliente < len(ar_cliente): #Se asegura que la ID ingresada sea de un cliente real.
                     break
                 else:
@@ -161,7 +163,7 @@ class Controlador:
             #======Seleccionar Dia======
             self.scr_show_fechas() #Mostramos al usuario los dias y si estan disponibles o no.
             while True:
-                self.int_fecha = vs.draw_enter_fecha() #Pedimos al usuario ingresar el dia.
+                self.int_fecha = vs_r.draw_enter_fecha() #Pedimos al usuario ingresar el dia.
                 if self.int_fecha > -1 and self.int_fecha < 31:
                     break
                 else:
@@ -170,9 +172,9 @@ class Controlador:
                 while ar_fecha[self.int_fecha].GetEstado() == True: #Aca leemos el array fecha segun el dia ingresado, en caso de ser True, el dia esta ocupado.
                     self.int_fecha = self.scr_dia_cercano(self.int_fecha) #En caso de que el dia este ocupado, el programa ofrecera el mas cercano disponible.
                     if self.int_fecha != 31: #En caso de que no hayan dias disponibles luego de lo pedido.
-                        vs.draw_error_dia_ocupado(self.int_fecha) #Error 1 = Dia ocupado.
+                        vs_r.draw_error_dia_ocupado(self.int_fecha) #Error 1 = Dia ocupado.
                         while True:
-                            self.int_fecha = vs.draw_enter_fecha() #Pedimos al usuario ingresar el dia.
+                            self.int_fecha = vs_r.draw_enter_fecha() #Pedimos al usuario ingresar el dia.
                             if self.int_fecha > -1 and self.int_fecha < 31:
                                 break
                             else:
@@ -186,9 +188,9 @@ class Controlador:
             ar_reserva[(len(ar_reserva) - 1)].set_fecha(self.int_fecha)
             ar_fecha[self.int_fecha].SetEstado(True)
             #======Seleccionar Servicios======
-            while vs.draw_pregunta_servicios() == "si":
+            while vs_r.draw_pregunta_servicios() == "si":
                 self.scr_show_servicios() #Mostramos al usuario los servicios.
-                int_idservice = vs.draw_enter_servicios() #int_idservice sera el numero ingresado.
+                int_idservice = vs_r.draw_enter_servicios() #int_idservice sera el numero ingresado.
                 if int_idservice > -1 and int_idservice < len(ar_servicio): #Verificamos que el numero ingresado este entre 0 y el maximo de servicios (Estos incluidos).
                     ar_reserva[(len(ar_reserva) - 1)].add_servicio(int_idservice,ar_servicio[int_idservice].GetPrecio()) #Extendemos la array de servicios, dandole la ID y el monto del servicio.
             #Si dejamos la casilla vacia o escribimos algo random, se termina la parte de servicios y pasamos con la siguiente.
@@ -196,7 +198,7 @@ class Controlador:
             #Esto de aca abajo se encarga de mostrar los distintos montos a sumar.
             #Para mas información revisar: Reserva -> STR -> __str_price__
             vs.draw_bar()
-            vs.draw_reserva_terminada()
+            vs_r.draw_reserva_terminada()
             for i in range(3):
                 vs.draw(ar_reserva[(len(ar_reserva) - 1)].__str_price__(i))
             ar_reserva[(len(ar_reserva) - 1)].calcular_iva()
@@ -215,12 +217,12 @@ class Controlador:
         try:
             self.scr_show_reservas() #Mostramos las reservas.
             vs.draw_bar()
-            int_seniar = vs.draw_enter_seniar() #Pedimos al usuario que escriba la ID de la reserva a señar.
+            int_seniar = vs_r.draw_enter_seniar() #Pedimos al usuario que escriba la ID de la reserva a señar.
             if ar_reserva[int_seniar].get_status() == "En Cola...": #Preguntamos si la reserva esta En Cola, para no señar una reserva cancelada o ya señada.
                 vs.draw(ar_reserva[int_seniar].__str_senia__()) #En caso de que este En Cola, le mostramos al usuario cuanto costaria.
-                if vs.draw_pregunta_seniar() == "si": #Pedimos al usuario que escriba si para confirmar.
+                if vs_r.draw_pregunta_seniar() == "si": #Pedimos al usuario que escriba si para confirmar.
                     ar_reserva[int_seniar].set_status("Señado") #Cambiamos el estado de la reserva a Señado.
-                vs.draw_seniar_terminado() #Printeamos que el señado fue terminado.
+                vs_r.draw_seniar_terminado() #Printeamos que el señado fue terminado.
                 vs.draw_continue()
             else:
                 vs.draw_error(4) #En caso de que no este En Cola, se le avisara al usuario.
@@ -231,12 +233,12 @@ class Controlador:
         try:
             self.scr_show_reservas() #Mostramos las reservas.
             vs.draw_bar()
-            int_cancel = vs.draw_enter_cancelar() #Pedimos al usuario que escriba la ID de la reserva a cancelar.
+            int_cancel = vs_r.draw_enter_cancelar() #Pedimos al usuario que escriba la ID de la reserva a cancelar.
             if ar_reserva[int_cancel].get_status() == "En Cola..." or ar_reserva[int_cancel].get_status() == "Señado": #Preguntamos si la reserva no esta cancelada.
                 vs.draw(ar_reserva[int_cancel].__str_cancelar__()) #En caso de que no este cancelado, le mostramos al usuario cuanto dinero se devolveria.
-                if vs.draw_pregunta_cancelar() == "si": #Pedimos al usuario que escriba si para confirmar.
+                if vs_r.draw_pregunta_cancelar() == "si": #Pedimos al usuario que escriba si para confirmar.
                     ar_reserva[int_cancel].set_status("Cancelado") #Cambiamos el estado de la reserva a Cancelado.
-                vs.draw_cancelar_terminado() #Printeamos que el cancelamiento fue terminado.
+                vs_r.draw_cancelar_terminado() #Printeamos que el cancelamiento fue terminado.
                 vs.draw_continue()
             else:
                 vs.draw_error(5) #En caso de que no este En Cola o Señado, se le avisara al usuario.
