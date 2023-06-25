@@ -51,6 +51,8 @@ class Vista_main:
                 print("No hay ningun dia disponible luego del ingresado...")
             case 7:
                 print("El valor ingresado causo un error, intente de nuevo...")
+            case 8:
+                print("El valor ingresado se sale del rango estipulado.")
         self.draw_continue()
 
     def draw_error_dia_ocupado(self,day):

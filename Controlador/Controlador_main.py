@@ -148,17 +148,32 @@ class Controlador:
             ar_reserva.append(Reserva()) #Creamos la reserva
             #======Seleccionar Cliente======
             self.scr_show_clientes() #Mostramos al usuario los clientes.
-            self.int_idcliente = vs.draw_enter_cliente() #Pedimos al usuario ingrese la ID del cliente.
+            while True:
+                self.int_idcliente = vs.draw_enter_cliente() #Pedimos al usuario ingrese la ID del cliente.
+                if self.int_idcliente > -1 and self.int_idcliente < len(ar_cliente): #Se asegura que la ID ingresada sea de un cliente real.
+                    break
+                else:
+                    vs.draw_error(8)
             ar_reserva[(len(ar_reserva) - 1)].set_cliente(self.int_idcliente)
             #======Seleccionar Dia======
             self.scr_show_fechas() #Mostramos al usuario los dias y si estan disponibles o no.
-            self.int_fecha = vs.draw_enter_fecha() #Pedimos al usuario ingresar el dia.
+            while True:
+                self.int_fecha = vs.draw_enter_fecha() #Pedimos al usuario ingresar el dia.
+                if self.int_fecha > -1 and self.int_fecha < 31:
+                    break
+                else:
+                    vs.draw_error(8)
             try:
                 while ar_fecha[self.int_fecha].GetEstado() == True: #Aca leemos el array fecha segun el dia ingresado, en caso de ser True, el dia esta ocupado.
                     self.int_fecha = self.scr_dia_cercano(self.int_fecha) #En caso de que el dia este ocupado, el programa ofrecera el mas cercano disponible.
                     if self.int_fecha != 31: #En caso de que no hayan dias disponibles luego de lo pedido.
                         vs.draw_error_dia_ocupado(self.int_fecha) #Error 1 = Dia ocupado.
-                        self.int_fecha = vs.draw_enter_fecha() #Pedimos al usuario ingresar otra vez el dia.
+                        while True:
+                            self.int_fecha = vs.draw_enter_fecha() #Pedimos al usuario ingresar el dia.
+                            if self.int_fecha > -1 and self.int_fecha < 31:
+                                break
+                            else:
+                                vs.draw_error(8)
                     else:
                         vs.draw_error(6)
                     if self.int_fecha == 31:
