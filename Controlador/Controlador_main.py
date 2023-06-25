@@ -17,7 +17,7 @@ class Controlador:
         self.scr_create_fecha()
         self.scr_create_servicio()
         self.scr_leer_reserva()
-    
+
     #===============================
     #======   LEER ARCHIVOS   ======
     #===============================
@@ -144,64 +144,93 @@ class Controlador:
     #Asi que le restamos 1 para manipular especificamente la ultima reserva creada.
     #Si saben alguna forma mas corta de hacerlo, me avisan B)
     def scr_create_reserva(self):
-        ar_reserva.append(Reserva()) #Creamos la reserva
-        #======Seleccionar Cliente======
-        self.scr_show_clientes() #Mostramos al usuario los clientes.
-        self.int_idcliente = vs.draw_enter_cliente() #Pedimos al usuario ingrese la ID del cliente.
-        ar_reserva[(len(ar_reserva) - 1)].set_cliente(self.int_idcliente)
-        #======Seleccionar Dia======
-        self.scr_show_fechas() #Mostramos al usuario los dias y si estan disponibles o no.
-        self.int_fecha = vs.draw_enter_fecha() #Pedimos al usuario ingresar el dia.
-        while ar_fecha[self.int_fecha].GetEstado() == True: #Aca leemos el array fecha segun el dia ingresado, en caso de ser True, el dia esta ocupado.
-            vs.draw_error(2) # Error 1 = Dia ocupado.
-            self.int_fecha = vs.draw_enter_fecha() #Pedimos al usuario ingresar otra vez el dia.
-        ar_reserva[(len(ar_reserva) - 1)].set_fecha(self.int_fecha)
-        ar_fecha[self.int_fecha].SetEstado(True)
-        #======Seleccionar Servicios======
-        while vs.draw_pregunta_servicios() == "si":
-            self.scr_show_servicios() #Mostramos al usuario los servicios.
-            int_idservice = vs.draw_enter_servicios() #int_idservice sera el numero ingresado.
-            if int_idservice > -1 and int_idservice < len(ar_servicio): #Verificamos que el numero ingresado este entre 0 y el maximo de servicios (Estos incluidos).
-                ar_reserva[(len(ar_reserva) - 1)].add_servicio(int_idservice,ar_servicio[int_idservice].GetPrecio()) #Extendemos la array de servicios, dandole la ID y el monto del servicio.
-        #Si dejamos la casilla vacia o escribimos algo random, se termina la parte de servicios y pasamos con la siguiente.
-        #======Finalizar======
-        #Esto de aca abajo se encarga de mostrar los distintos montos a sumar.
-        #Para mas información revisar: Reserva -> STR -> __str_price__
-        vs.draw_bar()
-        vs.draw_reserva_terminada()
-        for i in range(3):
-            vs.draw(ar_reserva[(len(ar_reserva) - 1)].__str_price__(i))
-        ar_reserva[(len(ar_reserva) - 1)].calcular_iva()
-        for i in range(3,5,1):
-            vs.draw(ar_reserva[(len(ar_reserva) - 1)].__str_price__(i))
-        vs.draw_bar()
-        vs.draw_continue()
+        try:
+            ar_reserva.append(Reserva()) #Creamos la reserva
+            #======Seleccionar Cliente======
+            self.scr_show_clientes() #Mostramos al usuario los clientes.
+            self.int_idcliente = vs.draw_enter_cliente() #Pedimos al usuario ingrese la ID del cliente.
+            ar_reserva[(len(ar_reserva) - 1)].set_cliente(self.int_idcliente)
+            #======Seleccionar Dia======
+            self.scr_show_fechas() #Mostramos al usuario los dias y si estan disponibles o no.
+            self.int_fecha = vs.draw_enter_fecha() #Pedimos al usuario ingresar el dia.
+            try:
+                while ar_fecha[self.int_fecha].GetEstado() == True: #Aca leemos el array fecha segun el dia ingresado, en caso de ser True, el dia esta ocupado.
+                    self.int_fecha = self.scr_dia_cercano(self.int_fecha) #En caso de que el dia este ocupado, el programa ofrecera el mas cercano disponible.
+                    if self.int_fecha != 31: #En caso de que no hayan dias disponibles luego de lo pedido.
+                        vs.draw_error_dia_ocupado(self.int_fecha) #Error 1 = Dia ocupado.
+                        self.int_fecha = vs.draw_enter_fecha() #Pedimos al usuario ingresar otra vez el dia.
+                    else:
+                        vs.draw_error(6)
+                    if self.int_fecha == 31:
+                        self.int_fecha = 0
+            except Exception:
+                vs.draw_error(1)
+            ar_reserva[(len(ar_reserva) - 1)].set_fecha(self.int_fecha)
+            ar_fecha[self.int_fecha].SetEstado(True)
+            #======Seleccionar Servicios======
+            while vs.draw_pregunta_servicios() == "si":
+                self.scr_show_servicios() #Mostramos al usuario los servicios.
+                int_idservice = vs.draw_enter_servicios() #int_idservice sera el numero ingresado.
+                if int_idservice > -1 and int_idservice < len(ar_servicio): #Verificamos que el numero ingresado este entre 0 y el maximo de servicios (Estos incluidos).
+                    ar_reserva[(len(ar_reserva) - 1)].add_servicio(int_idservice,ar_servicio[int_idservice].GetPrecio()) #Extendemos la array de servicios, dandole la ID y el monto del servicio.
+            #Si dejamos la casilla vacia o escribimos algo random, se termina la parte de servicios y pasamos con la siguiente.
+            #======Finalizar======
+            #Esto de aca abajo se encarga de mostrar los distintos montos a sumar.
+            #Para mas información revisar: Reserva -> STR -> __str_price__
+            vs.draw_bar()
+            vs.draw_reserva_terminada()
+            for i in range(3):
+                vs.draw(ar_reserva[(len(ar_reserva) - 1)].__str_price__(i))
+            ar_reserva[(len(ar_reserva) - 1)].calcular_iva()
+            for i in range(3,5,1):
+                vs.draw(ar_reserva[(len(ar_reserva) - 1)].__str_price__(i))
+            vs.draw_bar()
+            vs.draw_continue()
+        except Exception:
+            ar_reserva.pop(len(ar_reserva) - 1)
+            vs.draw_error(7)
 
     #================================
     #======   CAMBIAR STATUS   ======
     #================================
     def scr_seniar(self):
-        self.scr_show_reservas() #Mostramos las reservas.
-        vs.draw_bar()
-        int_seniar = vs.draw_enter_seniar() #Pedimos al usuario que escriba la ID de la reserva a señar.
-        if ar_reserva[int_seniar].get_status() == "En Cola...": #Preguntamos si la reserva esta En Cola, para no señar una reserva cancelada o ya señada.
-            vs.draw(ar_reserva[int_seniar].__str_senia__()) #En caso de que este En Cola, le mostramos al usuario cuanto costaria.
-            if vs.draw_pregunta_seniar() == "si": #Pedimos al usuario que escriba si para confirmar.
-                ar_reserva[int_seniar].set_status("Señado") #Cambiamos el estado de la reserva a Señado.
-            vs.draw_seniar_terminado() #Printeamos que el señado fue terminado.
-            vs.draw_continue()
-        else:
-            vs.draw_error(4) #En caso de que no este En Cola, se le avisara al usuario.
+        try:
+            self.scr_show_reservas() #Mostramos las reservas.
+            vs.draw_bar()
+            int_seniar = vs.draw_enter_seniar() #Pedimos al usuario que escriba la ID de la reserva a señar.
+            if ar_reserva[int_seniar].get_status() == "En Cola...": #Preguntamos si la reserva esta En Cola, para no señar una reserva cancelada o ya señada.
+                vs.draw(ar_reserva[int_seniar].__str_senia__()) #En caso de que este En Cola, le mostramos al usuario cuanto costaria.
+                if vs.draw_pregunta_seniar() == "si": #Pedimos al usuario que escriba si para confirmar.
+                    ar_reserva[int_seniar].set_status("Señado") #Cambiamos el estado de la reserva a Señado.
+                vs.draw_seniar_terminado() #Printeamos que el señado fue terminado.
+                vs.draw_continue()
+            else:
+                vs.draw_error(4) #En caso de que no este En Cola, se le avisara al usuario.
+        except Exception:
+            vs.draw_error(7)
 
     def scr_cancelar(self):
-        self.scr_show_reservas() #Mostramos las reservas.
-        vs.draw_bar()
-        int_cancel = vs.draw_enter_cancelar() #Pedimos al usuario que escriba la ID de la reserva a cancelar.
-        if ar_reserva[int_cancel].get_status() == "En Cola..." or ar_reserva[int_cancel].get_status() == "Señado": #Preguntamos si la reserva no esta cancelada.
-            vs.draw(ar_reserva[int_cancel].__str_cancelar__()) #En caso de que no este cancelado, le mostramos al usuario cuanto dinero se devolveria.
-            if vs.draw_pregunta_cancelar() == "si": #Pedimos al usuario que escriba si para confirmar.
-                ar_reserva[int_cancel].set_status("Cancelado") #Cambiamos el estado de la reserva a Cancelado.
-            vs.draw_cancelar_terminado() #Printeamos que el cancelamiento fue terminado.
-            vs.draw_continue()
-        else:
-            vs.draw_error(5) #En caso de que no este En Cola o Señado, se le avisara al usuario.
+        try:
+            self.scr_show_reservas() #Mostramos las reservas.
+            vs.draw_bar()
+            int_cancel = vs.draw_enter_cancelar() #Pedimos al usuario que escriba la ID de la reserva a cancelar.
+            if ar_reserva[int_cancel].get_status() == "En Cola..." or ar_reserva[int_cancel].get_status() == "Señado": #Preguntamos si la reserva no esta cancelada.
+                vs.draw(ar_reserva[int_cancel].__str_cancelar__()) #En caso de que no este cancelado, le mostramos al usuario cuanto dinero se devolveria.
+                if vs.draw_pregunta_cancelar() == "si": #Pedimos al usuario que escriba si para confirmar.
+                    ar_reserva[int_cancel].set_status("Cancelado") #Cambiamos el estado de la reserva a Cancelado.
+                vs.draw_cancelar_terminado() #Printeamos que el cancelamiento fue terminado.
+                vs.draw_continue()
+            else:
+                vs.draw_error(5) #En caso de que no este En Cola o Señado, se le avisara al usuario.
+        except Exception:
+            vs.draw_error(7)
+
+    #================================
+    #=======   DIA CERCANO   ========
+    #================================
+    def scr_dia_cercano(self,day):
+        while ar_fecha[day].GetEstado() == True:
+            day += 1
+            if day == 31:
+                break
+        return day

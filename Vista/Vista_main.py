@@ -27,6 +27,7 @@ class Vista_main:
         print("5 - Reservar Fecha.")
         print("6 - Pagar Seña Inicial.")
         print("7 - Cancelar Reserva.")
+        print("8 - Cerrar Programa")
         return input()
     
     #============================
@@ -39,33 +40,55 @@ class Vista_main:
             case 1:
                 print("Debe ingresar un digito numerico.")
             case 2:
-                print("Ese dia esta ocupado, ingrese otro...")
+                print("Ese dia esta ocupado, ingrese otro...") #Este error fue reemplazado por draw_error_dia_ocupado.
             case 3:
                 print("No hay reservas realizadas.")
             case 4:
                 print("Esa reserva no esta disponible para señar.")
             case 5:
                 print("Esa reserva no esta disponible para cancelar.")
+            case 6:
+                print("No hay ningun dia disponible luego del ingresado...")
+            case 7:
+                print("El valor ingresado causo un error, intente de nuevo...")
         self.draw_continue()
+
+    def draw_error_dia_ocupado(self,day):
+        print("Ese dia esta ocupado, quizas le interesaria el " + str(day) + "...")
 
     #=======================
     #======   ENTER   ======
     #=======================
     
     def draw_enter_fecha(self):
-        return int(input("Ingrese el dia en el que reservar: "))
+        try:
+            return int(input("Ingrese el dia en el que reservar: "))
+        except Exception:
+            self.draw_error(2)
     
     def draw_enter_servicios(self):
-        return int(input("Ingrese el ID del servicio a reservar: "))
+        try:
+            return int(input("Ingrese el ID del servicio a reservar: "))
+        except Exception:
+            self.draw_error(2)
 
     def draw_enter_cliente(self):
-        return int(input("Ingrese el ID del cliente a cargo de la reserva: "))
+        try:
+            return int(input("Ingrese el ID del cliente a cargo de la reserva: "))
+        except Exception:
+            self.draw_error(2)
     
     def draw_enter_seniar(self):
-        return int(input("Ingrese el ID de la reserva a señar: "))
+        try:
+            return int(input("Ingrese el ID de la reserva a señar: "))
+        except Exception:
+            self.draw_error(2)
     
     def draw_enter_cancelar(self):
-        return int(input("Ingrese el ID de la reserva a cancelar: "))
+        try:
+            return int(input("Ingrese el ID de la reserva a cancelar: "))
+        except Exception:
+            self.draw_error(2)
     
     #==========================
     #======   PREGUNTA   ======

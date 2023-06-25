@@ -26,3 +26,6 @@ while True:
         #Cancelar
         case 7:
             cnt.scr_cancelar() #Llama la respectiva función.
+        #Cerrar
+        case 8:
+            break
