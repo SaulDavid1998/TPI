@@ -63,7 +63,7 @@ class Reserva:
 
     def __str__(self,type):
         match type:
-            case 0: return "|| Cliente: " + str(self.get_cliente()) + " ||" #Mostramos el nombre del cliente.
+            case 0: return "|| Cliente: " + str(self.get_cliente()) + " ||" #Mostramos el nombre del cliente. # REEMPLAZADA POR __str_cliente__
             case 1: return "|| Dia: " + str(self.get_fecha()) + " ||"   #Mostramos el dia del evento.
             case 2: return "|| ID Servicios: " + str(self.get_servicios()) + " ||" #Mostramos el ID de los servicios.
             case 3: return "|| $ " + str(self.get_monto()) + " ||" #Mostramos el monto total.
@@ -90,3 +90,6 @@ class Reserva:
             return "El dinero a devolver es: $" + str((self.get_monto() * 0.3) * 0.2)
         else:
             return "No hay que devolver dinero."
+    
+    def __str_cliente__(self,name):
+        return "|| Cliente: " + str(name) + " ||"

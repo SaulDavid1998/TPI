@@ -73,7 +73,10 @@ class Controlador:
     #SCRIPT _ MOSTRAR _ RESERVA _ SMALL: Muestra la reserva seleccionada sin detalles.
     def scr_show_reserva_small(self,id):
         for i in range(5):
-            vs.draw(ar_reserva[id].__str__(i))
+            if i != 0:
+                vs.draw(ar_reserva[id].__str__(i))
+            else:
+                vs.draw(ar_reserva[id].__str_cliente__(ar_cliente[ar_reserva[id].get_cliente()].GetNombre()))
 
     #SCRIP _ MOSTRAR _ RESERVA: Muestra las reservas y NO pide pulsar Enter para continuar...
     def scr_show_reservas(self):
