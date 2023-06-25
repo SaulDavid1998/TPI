@@ -104,7 +104,7 @@ class Controlador:
     #SCRIPT _ MOSTRAR _ FECHAS: Muestra las fechas y NO pide pulsar Enter para continuar.
     def scr_show_fechas(self):
         vs.draw_bar()
-        for i,j in enumerate(ar_fecha): #Enumerate = Se ejecutara en cada uno de los valores del array, osea, cada fecha.
+        for i in range(1,len(ar_fecha),1): #Enumerate = Se ejecutara en cada uno de los valores del array, osea, cada fecha.
             vs.draw(ar_fecha[i].__str__()) #__str__ muestra de forma bonita y detallada el objeto.
         vs.draw_bar()
 
@@ -164,7 +164,7 @@ class Controlador:
             self.scr_show_fechas() #Mostramos al usuario los dias y si estan disponibles o no.
             while True:
                 self.int_fecha = vs_r.draw_enter_fecha() #Pedimos al usuario ingresar el dia.
-                if self.int_fecha > -1 and self.int_fecha < 31:
+                if self.int_fecha > 0 and self.int_fecha < 31:
                     break
                 else:
                     vs.draw_error(8)

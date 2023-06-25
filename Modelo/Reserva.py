@@ -73,7 +73,7 @@ class Reserva:
         match type:
             case 0: return "Precio de la reserva: $" + str(self.get_monto()) #Mostramos el precio de la reserva + servicios.
             case 1: return "Gastos administrativos: $100" #Mostramos el gasto administrativo.
-            case 2: return "IVA: " + str((self.get_monto() * 1.21) - self.get_monto()) + "%" #Mostramos lo que se suma debido al IVA.
+            case 2: return "IVA: $" + str(((self.get_monto() + 100) * 1.21) - self.get_monto())  #Mostramos lo que se suma debido al IVA.
             case 3: return "En total, el evento costara: $" + str(self.get_monto()) #Mostramos el precio final.
             case 4: return "La seña a realizar es de: $" + str(self.get_monto() * 0.3) #Mostramos el precio a señar.
 

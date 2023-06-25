@@ -16,4 +16,7 @@ class Fecha:
         self.__fecha=fecha
 
     def __str__(self):
-        return "|| Dia: " + str(self.__fecha) + " - Estado: " + str(self.__estado) + " ||"
+        if self.GetEstado() == False:
+            return "|| Dia: " + str(self.__fecha) + " - Estado: Disponible ||"
+        else:
+            return "|| Dia: " + str(self.__fecha) + " - Estado: Reservado ||"
